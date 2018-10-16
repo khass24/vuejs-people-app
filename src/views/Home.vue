@@ -1,15 +1,25 @@
 <template>
   <div class="home">
-    <h1>{{ message }}</h1>
+    <h1>See all the People</h1>
 
     <div>
-      New Person: <input v-model="newPerson.text">
+      New Person: <input v-model="newPerson.name">
+      New Bio: <input v-model="newPerson.bio">
       <button v-on:click="addPerson()">Add Person!</button>
     </div>
 
     <div v-for="person in people">
-      <h3>{{ person.name}}</h3>
+      <h3 v-on:click="toggleBio()">Name: {{ person.name }}</h3>
+      <p>Bio: {{ person.bio }}</p>
+      <button v-on:click="deletePerson()">Delete Person!</button>
+
     </div>
+
+    <div>
+      <br>
+      <h4>People Count: {{this.people.length}}</h4>
+    </div>
+
   </div>
 </template>
 
@@ -19,24 +29,24 @@
 <script>
 export default {
   data: function() {
+
     return {
-      message: "See all the People",
 
       people: [
       { 
-      name: "Buddha",
-      bio: "Buddhist",
-      bioVisible: true
+        name: "Buddha",
+        bio: "Buddhist",
+        bioVisible: true
       },
       { 
-      name: "Jesus",
-      bio: "Jewish",
-      bioVisible: true
+        name: "Jesus",
+        bio: "Jewish",
+        bioVisible: true
       },
       {
-      name: "Shiva",
-      bio: "Hindi",
-      bioVisible: true
+        name: "Steve",
+        bio: "Agnostic",
+        bioVisible: true
       }
     ],
     newPerson: {name: "", bio: "", bioVisible: true}
@@ -47,6 +57,13 @@ export default {
     addPerson: function() {
       this.people.push(this.newPerson);
       this.newPerson = {name: "", bio: "", bioVisible: true};
+    },
+    deletePerson: function() {
+      this.people.splice(this.people.index, 1);
+      return people;
+    },
+    toggleBio: function() {
+      this.people.toggle(this.people.bio);
     }
   },
   computed: {}
