@@ -1,18 +1,54 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>{{ message }}</h1>
+
+    <div>
+      New Person: <input v-model="newPerson.text">
+      <button v-on:click="addPerson()">Add Person!</button>
+    </div>
+
+    <div v-for="person in people">
+      <h3>{{ person.name}}</h3>
+    </div>
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+<style>
+</style>
 
+<script>
 export default {
-  name: 'home',
-  components: {
-    HelloWorld
-  }
-}
+  data: function() {
+    return {
+      message: "See all the People",
+
+      people: [
+      { 
+      name: "Buddha",
+      bio: "Buddhist",
+      bioVisible: true
+      },
+      { 
+      name: "Jesus",
+      bio: "Jewish",
+      bioVisible: true
+      },
+      {
+      name: "Shiva",
+      bio: "Hindi",
+      bioVisible: true
+      }
+    ],
+    newPerson: {name: "", bio: "", bioVisible: true}
+    };
+  },
+  created: function() {},
+  methods: {
+    addPerson: function() {
+      this.people.push(this.newPerson);
+      this.newPerson = {name: "", bio: "", bioVisible: true};
+    }
+  },
+  computed: {}
+};
 </script>
