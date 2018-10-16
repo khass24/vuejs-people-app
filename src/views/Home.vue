@@ -9,7 +9,7 @@
     </div>
 
     <div v-for="person in people">
-      <h3 v-on:click="toggleBio()">Name: {{ person.name }}</h3>
+      <h3>Name: {{ person.name }}</h3>
       <p>Bio: {{ person.bio }}</p>
       <button v-on:click="deletePerson()">Delete Person!</button>
 
@@ -24,12 +24,14 @@
 </template>
 
 <style>
+  body {
+    background-color: #61D9F3;
+  }
 </style>
 
 <script>
 export default {
   data: function() {
-
     return {
 
       people: [
@@ -61,9 +63,6 @@ export default {
     deletePerson: function() {
       this.people.splice(this.people.index, 1);
       return people;
-    },
-    toggleBio: function() {
-      this.people.toggle(this.people.bio);
     }
   },
   computed: {}
