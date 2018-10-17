@@ -3,67 +3,63 @@
     <h1>See all the People</h1>
 
     <div>
+      <h4>People Count: {{ people.length}}</h4>
+    </div>
+
+    <div>
       New Person: <input v-model="newPerson.name">
       New Bio: <input v-model="newPerson.bio">
       <button v-on:click="addPerson()">Add Person!</button>
     </div>
 
     <div v-for="person in people">
-      <h3>Name: {{ person.name }}</h3>
-      <p>Bio: {{ person.bio }}</p>
-      <button v-on:click="deletePerson()">Delete Person!</button>
-
-    </div>
-
-    <div>
-      <br>
-      <h4>People Count: {{this.people.length}}</h4>
+      <h2 @click="toggleBio(person)">Name: {{ person.name }}</h2>
+      <div v-if="person.bioVisible">
+        <h3>Bio: {{ person.bio }}</h3>
+        <button @click="deletePerson(person)">Delete Person!</button>
+      </div>
     </div>
 
   </div>
 </template>
 
 <style>
-  body {
-    background-color: #61D9F3;
+  .strike {
+    text-decoration: line-through;
   }
 </style>
 
 <script>
+var axios = require('axios');
+
 export default {
   data: function() {
     return {
-
-      people: [
-      { 
-        name: "Buddha",
-        bio: "Buddhist",
-        bioVisible: true
-      },
-      { 
-        name: "Jesus",
-        bio: "Jewish",
-        bioVisible: true
-      },
-      {
-        name: "Steve",
-        bio: "Agnostic",
-        bioVisible: true
-      }
-    ],
-    newPerson: {name: "", bio: "", bioVisible: true}
+      people: [],
+      newPerson: {name: "", bio: "", bioVisible: true}
     };
   },
-  created: function() {},
+  created: function() {
+    axios
+    .get("http://localhost:3000/api/people")
+    .then(function(response) {
+      this.people = response.data;
+    }.bind(this));
+  },
   methods: {
     addPerson: function() {
+      if (this.newPerson.name && this.newPerson.bio) {
       this.people.push(this.newPerson);
       this.newPerson = {name: "", bio: "", bioVisible: true};
+      }
     },
-    deletePerson: function() {
-      this.people.splice(this.people.index, 1);
-      return people;
-    }
+    deletePerson: function(inputPerson) {
+      var index = this.people.indexOf(inputPerson);
+      this.people.splice(index, 1);
+    },
+    toggleBio: function(inputPerson) { 
+        inputPerson.bioVisible = !inputPerson.bioVisible;
+      }
   },
   computed: {}
 };
